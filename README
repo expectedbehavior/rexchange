@@ -1,0 +1,78 @@
+= RExchange
+
+RExchange is a pure ruby wrapper for the Microsoft Exchange Server WebDAV API
+
+== Things you should know
+
+* Requires Ruby 1.8.4 (for the extended WebDAV support in the net/http library)
+* RExchange is cross-platform compatible, being written in pure Ruby
+* Kiwi fruits are packed with vitamins
+
+== Why should you use RExchange
+
+* It makes interacting with Exchange simple
+* It was written for a real application, and does real work reliably day in and day out
+
+== Example
+
+	uri = 'https://example.com/exchange/admin/'
+	options = { :user => 'mydomain\admin', :password => 'random' }
+	
+	# We pass our uri (pointing directly to a mailbox), and options hash to RExchange::open
+	# to create a RExchange::Session.
+	RExchange::open(uri, options) do |mailbox|
+	
+		# The block parameter ("mailbox" in this case) is actually the Session itself.
+		# You can refer to folders by chaining them as method calls. "inbox" in this case
+		# isn't a defined method for Session, but part of the DSL to refer to folder names.
+		# Each folder name returns a RExchange::Folder. The folder is Enumerable, allowing
+		# iteration over the messages in the folder.
+	  mailbox.inbox.each do |message|
+	
+			# The "message" block parameter is a RExchange::Message object. You have access to
+			# several attributes of the message, including: href, from, to, message-id, date,
+			# importance, hasattachment and body.
+	 		p message.subject
+	
+			# The RExchange::Message#move_to method moves the message to another folder, in this
+			# case, an "archive" folder off of the inbox.
+			message.move_to '/inbox/archive'
+		end
+		
+		# You can also call the RExchange::Folder#messages method if you find calling "each"
+		# on a folder directly a little obscure.
+		mailbox.inbox.archive.messages.each do |m|
+		
+			# Our previous message should show up in here now.
+			p m.subject
+		end
+		
+		# The RExchange::Folder#message_in method is less expensive than the DSL folder-chaining
+		# methods. Since the folder-chaining is cached in the Session it's a small hit, and some
+		# may prefer the readability of them, but if you're looking for absolute performance
+		# or have really deep folder structures then this may be the method for you.
+		mailbox.messages_in '/inbox/' do |m|
+			
+			# Since we moved all our messages to the archive earlier, this shouldn't display
+			# anything.
+			p m.from
+		end
+		
+		# Folder names are "normalized", replacing dashes and spaces with underscores,
+		# squeezing out multiple underscores in a row, and downcasing the whole thing.
+		# So a folder name such as "My Very-long Folder Name" would look like:
+		mailbox.my_very_long_folder_name
+	end
+	
+== Caveats
+
+There are several features missing (simply because we didn't need them yet). Among them:
+
+* The ability to delete messages or folders
+* The ability to create folders
+* There's no mechanism for sending new messages, or replying or forwarding existing ones
+* There are a lot more message attributes we're not retrieving since they weren't useful to us, but they might be to you
+* Exporting an email or entire folder tree to offline storage
+* And much much more!
+
+If you'd like to see any of these features, or have some ideas of your own you'd like to see implemented don't hesitate to let us know, and if it strikes our fancy maybe you'll get some free programming!
