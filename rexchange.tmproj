@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>CHANGELOG</string>
+	<string>RAKEFILE</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,9 +28,7 @@
 			<key>filename</key>
 			<string>CHANGELOG</string>
 			<key>lastUsed</key>
-			<date>2006-02-23T20:31:50Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2006-10-15T17:16:40Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -54,49 +52,79 @@
 			<key>filename</key>
 			<string>RAKEFILE</string>
 			<key>lastUsed</key>
-			<date>2006-02-23T20:18:35Z</date>
+			<date>2006-10-15T20:41:55Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>CHANGELOG</key>
+		<key>RAKEFILE</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>8</integer>
+				<integer>63</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>38</integer>
 		</dict>
-		<key>RAKEFILE</key>
+		<key>lib/rexchange/folder.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>21</integer>
+				<integer>30</integer>
 				<key>line</key>
-				<integer>19</integer>
+				<integer>60</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>29</integer>
 		</dict>
-		<key>lib/rexchange.rb</key>
+		<key>lib/rexchange/generic_item.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>6</integer>
 				<key>line</key>
-				<integer>27</integer>
+				<integer>59</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>35</integer>
+		</dict>
+		<key>lib/rexchange/message.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>55</integer>
+				<key>line</key>
+				<integer>56</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>35</integer>
+		</dict>
+		<key>lib/rexchange/paginator.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>4</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -108,9 +136,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>33</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -120,14 +148,16 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>lib/rexchange.rb</string>
-		<string>RAKEFILE</string>
+		<string>lib/rexchange/folder.rb</string>
+		<string>lib/rexchange/generic_item.rb</string>
+		<string>lib/rexchange/paginator.rb</string>
+		<string>lib/rexchange/message.rb</string>
 		<string>test/functional.rb</string>
-		<string>CHANGELOG</string>
+		<string>RAKEFILE</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{517, 238}, {774, 846}}</string>
+	<string>{{250, 52}, {774, 694}}</string>
 </dict>
 </plist>

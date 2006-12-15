@@ -46,10 +46,19 @@ module RExchange
     def self.query(path)
       raise 'YOU MUST DEFINE THIS'
     end
-
+    
     # Retrieve an Array of items (such as Contact, Message, etc)
-    def self.find(credentials, path)
-      response = DavSearchRequest.execute(credentials, :body => query(path))
+    def self.find(credentials, path, conditions = nil)
+      qbody = <<-QBODY
+        <?xml version="1.0"?>
+  			<D:searchrequest xmlns:D = "DAV:">
+  				 <D:sql>
+           #{conditions.nil? ? query(path) : search(path, conditions)}
+           </D:sql>
+        </D:searchrequest>
+      QBODY
+      
+      response = DavSearchRequest.execute(credentials, :body => qbody)
 
       items = []
       xpath_query = "//a:propstat[a:status/text() = 'HTTP/1.1 200 OK']/a:prop"

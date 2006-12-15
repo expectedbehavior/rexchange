@@ -33,11 +33,35 @@ module RExchange
       DavMoveRequest.execute(@session, source, destination)
     end
     
+    def self.search(path, conditions)
+      qbody = [
+      <<-QBODY
+        SELECT "DAV:href", "urn:schemas:httpmail:from", "urn:schemas:httpmail:to",
+  			   "urn:schemas:mailheader:message-id", "urn:schemas:httpmail:subject",
+  			   "urn:schemas:httpmail:date", "urn:schemas:httpmail:importance",
+  			   "urn:schemas:httpmail:hasattachment", "urn:schemas:httpmail:textdescription",
+  			   "urn:schemas:httpmail:htmldescription"
+  			 FROM SCOPE('shallow traversal of "#{path}"')
+  			 WHERE "DAV:ishidden" = false
+  				 AND "DAV:isfolder" = false
+  				 AND "DAV:contentclass" = 'urn:content-classes:message'
+			QBODY
+		  ]
+		  
+		  mappings = {
+		    :from => 'urn:schemas:httpmail:from',
+		    :subject => 'urn:schemas:httpmail:subject'
+		  }
+		  
+		  mappings.each_pair do |key, field|
+		    qbody << "\"#{field}\" LIKE '%#{conditions[key]}%'" if conditions.has_key?(key)
+      end
+			
+			qbody.map { |part| part.strip }.join("\n\tAND ")
+    end
+    
     def self.query(path)
       <<-QBODY
-				<?xml version="1.0"?>
-				<D:searchrequest xmlns:D = "DAV:">
-					 <D:sql>
 					 SELECT "DAV:href", "urn:schemas:httpmail:from", "urn:schemas:httpmail:to",
 					   "urn:schemas:mailheader:message-id", "urn:schemas:httpmail:subject",
 					   "urn:schemas:httpmail:date", "urn:schemas:httpmail:importance",
@@ -47,8 +71,6 @@ module RExchange
 					 WHERE "DAV:ishidden" = false
 						 AND "DAV:isfolder" = false
 						 AND "DAV:contentclass" = 'urn:content-classes:message'
-                    </D:sql>
-				</D:searchrequest>
       QBODY
     end
   end

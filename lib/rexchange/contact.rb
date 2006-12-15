@@ -21,9 +21,6 @@ module RExchange
     
     def self.query(path)
       <<-QBODY
-				<?xml version="1.0"?>
-				<D:searchrequest xmlns:D = "DAV:">
-					 <D:sql>
 					 SELECT "urn:schemas:contacts:givenName", "urn:schemas:contacts:middlename",
 					  "urn:schemas:contacts:sn", "urn:schemas:contacts:title",
 					  "urn:schemas:contacts:mailingstreet", "urn:schemas:contacts:mailingcity",
@@ -36,8 +33,6 @@ module RExchange
 					 WHERE "DAV:ishidden" = false
 						 AND "DAV:isfolder" = false
 						 AND "DAV:contentclass" = 'urn:content-classes:person'
-                    </D:sql>
-				</D:searchrequest>
       QBODY
     end
 

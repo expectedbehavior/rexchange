@@ -57,6 +57,10 @@ module RExchange
       RExchange::Message::find(@credentials, to_s)
     end
     
+    def search(conditions = {})
+      RExchange::Message::find(@credentials, to_s, conditions)
+    end
+    
     def get_contacts
       RExchange::Contact::find(@credentials, to_s)
     end

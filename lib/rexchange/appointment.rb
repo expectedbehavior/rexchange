@@ -5,9 +5,6 @@ module RExchange
     
     def self.query(path)
       <<-QBODY
-	<?xml version="1.0"?>
-	  <D:searchrequest xmlns:D = "DAV:">
-	 <D:sql>
 	 SELECT 
 	   "urn:schemas:calendar:alldayevent",
            "urn:schemas:calendar:busystatus",
@@ -47,8 +44,6 @@ module RExchange
 	 WHERE "DAV:ishidden" = false
 	 AND "DAV:isfolder" = false
 	 AND "DAV:contentclass" = 'urn:content-classes:appointment'
-          </D:sql>
-	</D:searchrequest>
       QBODY
     end
 
