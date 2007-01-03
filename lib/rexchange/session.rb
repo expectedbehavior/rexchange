@@ -11,14 +11,14 @@ module RExchange
     #   uri = 'https://mydomain.com/exchange/demo'
     #   options = { :user => 'test', :password => 'random' }
     # 
-    #   RExchange::Session.new(uri, options) do |mailbox|
+    #   RExchange::Session.new(uri, 'bob', 'secret') do |mailbox|
     #     mailbox.test.each do |message|
     #       puts message.subject
     #     end
     #   end
-    def initialize(uri, options = {})
+    def initialize(uri, username = nil, password = nil)
     
-      @credentials = Credentials.new(uri, options)
+      @credentials = Credentials.new(uri, username, password)
       @parent = @credentials.uri.path
       @folder = ''
       

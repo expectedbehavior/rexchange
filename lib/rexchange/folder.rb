@@ -3,6 +3,7 @@ require 'net/https'
 require 'rexchange/dav_search_request'
 require 'rexchange/message'
 require 'rexchange/contact'
+require 'rexchange/appointment'
 
 module RExchange
 
@@ -11,10 +12,11 @@ module RExchange
     
     include Enumerable
     
-    attr_reader :credentails
+    attr_reader :credentails, :name
     
-    def initialize(credentials, parent, folder)
-      @credentials, @parent, @folder = credentials, parent, folder
+    def initialize(credentials, parent, name, content_type)
+      @credentials, @parent, @name = credentials, parent, name
+      @content_type = content_type
     end
     
     alias :old_method_missing :method_missing
@@ -23,7 +25,7 @@ module RExchange
     # exist, then old_method_missing is called.
     def method_missing(sym, *args)
       if folders.has_key?(sym.to_s)
-        Folder.new(@credentials, self, folders[sym.to_s] )
+        folders[sym.to_s]
       else
         old_method_missing(sym, args)
       end
@@ -31,38 +33,17 @@ module RExchange
     
     # Iterate through each RExchange::Message in this folder
     def each
-      if @folder =~ /^contacts$/i || @parent =~ /\/contacts\//i
-        get_contacts
-      else
-        get_messages
-      end.each do |item|
+      content_type::find(@credentials, to_s).each do |item|
         yield item
-      end  
+      end
     end
     
-    # Retrieve an Array of messages from a specific folder
-    # === Example
-    #   RExchange::open(uri, :user => 'bob', :password => 'random') do |mailbox|
-    #     mailbox.messages_in('inbox/archive').each do |message|
-    #       p message.from
-    #     end
-    #   end
-    def messages_in(folder)
-      folder.split('/').inject(@credentials.uri.path) do |final_path, current_path|
-        Folder.new(@credentials, final_path, current_path)
-      end.get_messages
-    end
-    
-    def get_messages
-      RExchange::Message::find(@credentials, to_s)
+    def content_type
+      RExchange::const_get(RExchange::CONTENT_TYPES[@content_type])
     end
     
     def search(conditions = {})
-      RExchange::Message::find(@credentials, to_s, conditions)
-    end
-    
-    def get_contacts
-      RExchange::Contact::find(@credentials, to_s)
+      content_type::find(@credentials, to_s, conditions)
     end
     
     # Join the strings passed in with '/'s between them
@@ -77,7 +58,7 @@ module RExchange
     
     # Return the absolute path to this folder (but not the full URI)
     def to_s
-      Folder.join(@parent, @folder)
+      Folder.join(@parent, @name)
     end
     
     private
@@ -107,7 +88,10 @@ DA_QUERY
         # Mail folders like "inbox" are urn:content-classes:mailfolder types.
         # Contacts folders like "contacts" are urn:content-classes:contactfolder types.
         # I think this would be a better way to handle folder enumeration...
-        folders[m.elements['a:displayname'].text.normalize] = m.elements['a:displayname'].text
+        displayname = m.elements['a:displayname'].text
+        contentclass = m.elements['a:contentclass'].text
+        
+        folders[displayname.normalize] = Folder.new(@credentials, self, displayname, contentclass.split(':').last)
       end
       
       return folders

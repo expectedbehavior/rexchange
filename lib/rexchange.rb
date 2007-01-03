@@ -19,10 +19,16 @@ module RExchange
   DEBUG_STREAM = $log
   
   # A shortcut to RExchange::Session#new's block syntax
-  def self.open(uri, options = {})
-    session = RExchange::Session.new(uri, options)
+  def self.open(uri, username = nil, password = nil)
+    session = RExchange::Session.new(uri, username, password)
     
     yield session if block_given?
     return session
   end
+  
+  CONTENT_TYPES = {
+    'mailfolder' => 'Message',
+    'contactfolder' => 'Contact',
+    'calendarfolder' => 'Appointment'
+  }
 end

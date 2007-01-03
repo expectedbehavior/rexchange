@@ -8,11 +8,11 @@ module RExchange
     attr_reader :user, :password, :uri
 
     # You must pass a uri, and an options hash containing :user and :password
-    def initialize(uri, options = {})
+    def initialize(uri, username = nil, password = nil)
       @uri = URI.parse(uri)
       @use_ssl = (@uri.scheme.downcase == 'https')
-      @user = @uri.userinfo ? @user.userinfo.split(':')[0] : options.values_at(:user)
-      @password = @uri.userinfo ? @user.userinfo.split(':')[1] : options.values_at(:password)
+      @user = @uri.userinfo ? @user.userinfo.split(':')[0] : username
+      @password = @uri.userinfo ? @user.userinfo.split(':')[1] : password
       @port = @uri.port || @uri.default_port
             
       if block_given?
