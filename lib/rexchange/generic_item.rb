@@ -15,15 +15,6 @@ module RExchange
 
     attr_accessor :attributes
 
-    # Used to access the attributes of the item as a hash.
-    def [](key)
-      @attributes[key]
-    end
-    
-    def []=(key, value)
-      @attributes[key] = value
-    end
-
     def initialize(session, dav_property_node)
       @attributes = {}
       @session = session
@@ -39,6 +30,8 @@ module RExchange
       end
     end
 
+    # Set the default CONTENT_CLASS to the class name, and define a
+    # dynamic query method for the derived class.
     def self.inherited(base)
       base.const_set('CONTENT_CLASS', base.to_s.split('::').last.downcase)
       
@@ -54,14 +47,35 @@ module RExchange
       end
     end
     
+    # This handy method is meant to be called from any inheriting
+    # classes. It is used to bind types of folders to particular
+    # Entity classes so that the folder knows what type it's
+    # enumerating. So for a "calendarfolder" you'd call:
+    #   set_folder_type 'calendarfolder' # or just 'calendar'
     def self.set_folder_type(dav_name)
-      Folder::CONTENT_TYPES[dav_name] = self
+      Folder::CONTENT_TYPES[dav_name.sub(/folder$/, '')] = self
     end
     
+    # --Normally Not Used--
+    # By default the CONTENT_CLASS is determined by the name
+    # of your class. So for the Appointment class the
+    # CONTENT_CLASS would be 'appointment'.
+    # If for some reason this convention doesn't suit you,
+    # you can use this method to set the appropriate value
+    # (which is used in queries).
+    # For example, the DAV:content-class for contacts is:
+    #   'urn:content-classes:person'
+    # Person doesn't strike me as the best name for our class though.
+    # Most people would refer to an entry in a Contacts folder as
+    # a Contact. So that's what we call our class, and we use this method
+    # to make sure everything still works as it should.
     def self.set_content_class(dav_name)
       const_set('CONTENT_CLASS', dav_name)
     end
     
+    # Defines what attributes are used in queries, and
+    # what methods they map to in instances. You should
+    # pass a Hash of method_name and namespaced-attribute-name pairs.
     def self.dav_attr_accessor(mappings)
       const_set('FIELD_NAMES', mappings.values)
 
