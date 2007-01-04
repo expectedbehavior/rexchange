@@ -25,10 +25,4 @@ module RExchange
     yield session if block_given?
     return session
   end
-  
-  CONTENT_TYPES = {
-    'mailfolder' => 'Message',
-    'contactfolder' => 'Contact',
-    'calendarfolder' => 'Appointment'
-  }
 end

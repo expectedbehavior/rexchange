@@ -3,17 +3,18 @@ require 'rexchange/generic_item'
 module RExchange
   class Message < GenericItem
     
-    def to_s
-      "To: #{to}, From: #{from}, Subject: #{subject}"
-    end
+    set_folder_type 'mail'
     
-    attribute_mappings 'has_attachments?' => 'hasattachment'
-    
-    # Returns the body of the message. This is either a httpmail:textdescription,
-    # or a httpmail:htmldescription
-    def body
-      @attributes['textdescription'] || @attributes['htmldescription']
-    end
+    dav_attr_accessor :href => 'DAV:href',
+      :from => 'urn:schemas:httpmail:from',
+      :to => 'urn:schemas:httpmail:to',
+      :message_id => 'urn:schemas:mailheader:message-id',
+      :subject => 'urn:schemas:httpmail:subject',
+      :recieved_on => 'urn:schemas:httpmail:date',
+      :importance => 'urn:schemas:httpmail:importance',
+      :has_attachments? => 'urn:schemas:httpmail:hasattachment',
+      :body => 'urn:schemas:httpmail:textdescription',
+      :html => 'urn:schemas:httpmail:htmldescription'
     
     # Move this message to the specified folder.
     # The folder can be a string such as 'inbox/archive' or a RExchange::Folder.
@@ -33,45 +34,10 @@ module RExchange
       DavMoveRequest.execute(@session, source, destination)
     end
     
-    def self.search(path, conditions)
-      qbody = [
-      <<-QBODY
-        SELECT "DAV:href", "urn:schemas:httpmail:from", "urn:schemas:httpmail:to",
-  			   "urn:schemas:mailheader:message-id", "urn:schemas:httpmail:subject",
-  			   "urn:schemas:httpmail:date", "urn:schemas:httpmail:importance",
-  			   "urn:schemas:httpmail:hasattachment", "urn:schemas:httpmail:textdescription",
-  			   "urn:schemas:httpmail:htmldescription"
-  			 FROM SCOPE('shallow traversal of "#{path}"')
-  			 WHERE "DAV:ishidden" = false
-  				 AND "DAV:isfolder" = false
-  				 AND "DAV:contentclass" = 'urn:content-classes:message'
-			QBODY
-		  ]
-		  
-		  mappings = {
-		    :from => 'urn:schemas:httpmail:from',
-		    :subject => 'urn:schemas:httpmail:subject'
-		  }
-		  
-		  mappings.each_pair do |key, field|
-		    qbody << "\"#{field}\" LIKE '%#{conditions[key]}%'" if conditions.has_key?(key)
-      end
-			
-			qbody.map { |part| part.strip }.join("\n\tAND ")
+    
+    def to_s
+      "To: #{to}, From: #{from}, Subject: #{subject}"
     end
     
-    def self.query(path)
-      <<-QBODY
-					 SELECT "DAV:href", "urn:schemas:httpmail:from", "urn:schemas:httpmail:to",
-					   "urn:schemas:mailheader:message-id", "urn:schemas:httpmail:subject",
-					   "urn:schemas:httpmail:date", "urn:schemas:httpmail:importance",
-					   "urn:schemas:httpmail:hasattachment", "urn:schemas:httpmail:textdescription",
-					   "urn:schemas:httpmail:htmldescription"
-					 FROM SCOPE('shallow traversal of "#{path}"')
-					 WHERE "DAV:ishidden" = false
-						 AND "DAV:isfolder" = false
-						 AND "DAV:contentclass" = 'urn:content-classes:message'
-      QBODY
-    end
   end
 end

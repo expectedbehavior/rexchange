@@ -16,7 +16,8 @@ module RExchange
     attr_reader :credentails, :name
     
     def initialize(credentials, parent, name, content_type)
-      @credentials, @parent, @name, @content_type = credentials, parent, name, content_type
+      @credentials, @parent, @name = credentials, parent, name
+      @content_type = CONTENT_TYPES[content_type]
     end
     
     # Used to access subfolders.
@@ -32,17 +33,13 @@ module RExchange
     
     # Iterate through each entry in this folder
     def each
-      content_type::find(@credentials, to_s).each do |item|
+      @content_type::find(@credentials, to_s).each do |item|
         yield item
       end
     end
     
-    def content_type
-      RExchange::const_get(RExchange::CONTENT_TYPES[@content_type])
-    end
-    
     def search(conditions = {})
-      content_type::find(@credentials, to_s, conditions)
+      @content_type::find(@credentials, to_s, conditions)
     end
     
     # Join the strings passed in with '/'s between them
@@ -75,7 +72,7 @@ module RExchange
         Document.new(response.body).elements.each(xpath_query) do |m|
           displayname = m.elements['a:displayname'].text
           contentclass = m.elements['a:contentclass'].text
-          folders[displayname.normalize] = Folder.new(@credentials, self, displayname, contentclass.split(':').last)
+          folders[displayname.normalize] = Folder.new(@credentials, self, displayname, contentclass.split(':').last.sub(/folder$/, ''))
         end
 
         folders
