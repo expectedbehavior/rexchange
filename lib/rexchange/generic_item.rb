@@ -70,7 +70,9 @@ module RExchange
     # a Contact. So that's what we call our class, and we use this method
     # to make sure everything still works as it should.
     def self.set_content_class(dav_name)
+      verbosity, $VERBOSE = $VERBOSE, nil # disable warnings for the next operation
       const_set('CONTENT_CLASS', dav_name)
+      $VERBOSE = verbosity # revert to the original verbosity
     end
     
     # Defines what attributes are used in queries, and
