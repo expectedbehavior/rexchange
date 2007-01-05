@@ -14,6 +14,7 @@ PACKAGE_FILES = FileList[
   'README',
   'CHANGELOG',
   'RAKEFILE',
+  'MIT-LICENSE',
   'lib/**/*.rb',
   'test/*.rb'
 ].to_a
