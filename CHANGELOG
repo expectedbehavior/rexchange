@@ -1,3 +1,7 @@
+-- 0.3.1:
+* Disabled a warning about overwriting GenericItem::CONTENT_CLASS
+* Added a "rescue" for Time::parse failures that reverts to the original element text
+
 -- 0.3.0:
 * Added support for Appointments
 * Options hash for Session creation is gone. The new form is: "RExchange::Session.new(url, username, password)"
