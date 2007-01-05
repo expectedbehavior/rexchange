@@ -1,3 +1,11 @@
+-- 0.3.0:
+* Added support for Appointments
+* Options hash for Session creation is gone. The new form is: "RExchange::Session.new(url, username, password)"
+* Removed GenericItem#[], GenericItem#method_missing (attributes are explicit now)
+* Removed Folder#get_messages, #get_contacts and #messages_in. Folders are now Enumerables using Enumerable#entries, #each, etc
+  to retrieve entries according to the folder's content-class. So a 'mailfolder' will retrieve Message instances,
+  a 'calendarfolder' will retrieve Appointment instances, and so on.
+
 -- 0.2.0:
 * Fixed a bug in Message#move_to when passing folders
 * Added support for Contact browsing

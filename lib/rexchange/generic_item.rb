@@ -22,7 +22,7 @@ module RExchange
       dav_property_node.elements.each do |element|
         namespaced_name = element.namespace + element.name
         
-        if element.name =~ /date$/i
+        if element.name =~ /date$/i || self.class::ATTRIBUTE_MAPPINGS.find { |k,v| v == namespaced_name && k.to_s =~ /\_(at|on)$/ }
           @attributes[namespaced_name] = Time::parse(element.text)
         else
           @attributes[namespaced_name] = element.text
@@ -38,7 +38,7 @@ module RExchange
       def base.query(path)
         <<-QBODY
           SELECT
-            #{self::FIELD_NAMES.map { |f| '"' + f + '"' }.join(',')}
+            #{self::ATTRIBUTE_MAPPINGS.values.map { |f| '"' + f + '"' }.join(',')}
           FROM SCOPE('shallow traversal of "#{path}"')
           WHERE "DAV:ishidden" = false
             AND "DAV:isfolder" = false
@@ -76,8 +76,13 @@ module RExchange
     # Defines what attributes are used in queries, and
     # what methods they map to in instances. You should
     # pass a Hash of method_name and namespaced-attribute-name pairs.
-    def self.dav_attr_accessor(mappings)
-      const_set('FIELD_NAMES', mappings.values)
+    def self.attribute_mappings(mappings)
+      
+      mappings.merge! :uid => 'DAV:uid',
+        :modified_at => 'DAV:getlastmodified',
+        :href => 'DAV:href'
+      
+      const_set('ATTRIBUTE_MAPPINGS', mappings)
 
       mappings.each_pair do |k,v|
         

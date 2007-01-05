@@ -5,8 +5,7 @@ module RExchange
     
     set_folder_type 'mail'
     
-    dav_attr_accessor :href => 'DAV:href',
-      :from => 'urn:schemas:httpmail:from',
+    attribute_mappings :from => 'urn:schemas:httpmail:from',
       :to => 'urn:schemas:httpmail:to',
       :message_id => 'urn:schemas:mailheader:message-id',
       :subject => 'urn:schemas:httpmail:subject',

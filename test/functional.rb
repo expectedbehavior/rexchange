@@ -4,7 +4,7 @@ require 'rexchange'
 class FunctionalTests < Test::Unit::TestCase
   
   def setup
-    @mailbox = RExchange::Session.new 'https://mail.dds-data.com/exchange/ssmoot', :user => 'ssmoot', :password => 'Startup3'
+    @mailbox = RExchange::Session.new 'url', 'username', 'password'
   end
   
   def teardown

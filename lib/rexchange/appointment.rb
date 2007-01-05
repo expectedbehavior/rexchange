@@ -5,7 +5,7 @@ module RExchange
     
     set_folder_type 'calendar'
     
-    dav_attr_accessor :all_day_event => 'urn:schemas:calendar:alldayevent',
+    attribute_mappings :all_day_event => 'urn:schemas:calendar:alldayevent',
       :busy_status => 'urn:schemas:calendar:busystatus',
       :contact => 'urn:schemas:calendar:contact',
       :contact_url => 'urn:schemas:calendar:contacturl',

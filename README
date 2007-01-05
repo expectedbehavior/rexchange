@@ -4,7 +4,7 @@ RExchange is a pure ruby wrapper for the Microsoft Exchange Server WebDAV API
 
 == Things you should know
 
-* Requires Ruby 1.8.4 (for the extended WebDAV support in the net/http library)
+* Requires Ruby 1.8.4 (or later, for the extended WebDAV support in the net/http library)
 * RExchange is cross-platform compatible, being written in pure Ruby
 * Kiwi fruits are packed with vitamins
 
@@ -36,7 +36,7 @@ RExchange is a pure ruby wrapper for the Microsoft Exchange Server WebDAV API
 	
 			# The RExchange::Message#move_to method moves the message to another folder, in this
 			# case, an "archive" folder off of the inbox.
-			message.move_to '/inbox/archive'
+			message.move_to mailbox.inbox.archive # or you could pass the string: '/inbox/archive'
 		end
 		
 		# You can also call the RExchange::Folder#messages method if you find calling "each"

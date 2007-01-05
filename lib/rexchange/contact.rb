@@ -6,7 +6,7 @@ module RExchange
     set_folder_type 'contact'
     set_content_class 'person'
 
-    dav_attr_accessor :first_name => 'urn:schemas:contacts:givenName',
+    attribute_mappings :first_name => 'urn:schemas:contacts:givenName',
       :middle_name => 'urn:schemas:contacts:middlename',
       :last_name => 'urn:schemas:contacts:sn',
       :title => 'urn:schemas:contacts:title',
