@@ -23,7 +23,7 @@ module RExchange
         namespaced_name = element.namespace + element.name
         
         if element.name =~ /date$/i || self.class::ATTRIBUTE_MAPPINGS.find { |k,v| v == namespaced_name && k.to_s =~ /\_(at|on)$/ }
-          @attributes[namespaced_name] = Time::parse(element.text)
+          @attributes[namespaced_name] = Time::parse(element.text) rescue element.text
         else
           @attributes[namespaced_name] = element.text
         end
