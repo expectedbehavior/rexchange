@@ -4,6 +4,8 @@ require 'rexchange/dav_search_request'
 require 'rexchange/message'
 require 'rexchange/contact'
 require 'rexchange/appointment'
+require 'rexchange/note'
+require 'rexchange/task'
 
 module RExchange
 
