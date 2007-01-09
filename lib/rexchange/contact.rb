@@ -22,7 +22,8 @@ module RExchange
       :mobile => 'urn:schemas:contacts:mobile',    
       :email => 'urn:schemas:contacts:email1',
       :website => 'urn:schemas:contacts:businesshomepage',
-      :company => 'urn:schemas:contacts:o'
+      :company => 'urn:schemas:contacts:o',
+      :notes => 'urn:schemas:httpmail:textdescription'
 
   end  
 end
