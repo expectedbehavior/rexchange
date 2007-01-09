@@ -29,7 +29,7 @@ module RExchange
         @session.uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + source.split('/').last
       end
 
-      $log.debug "move_to: source => \"#{source}\", destination => \"#{destination}\""
+      # $log.debug "move_to: source => \"#{source}\", destination => \"#{destination}\""
       DavMoveRequest.execute(@session, source, destination)
     end
     
