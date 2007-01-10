@@ -1,3 +1,7 @@
+-- 0.3.3:
+* Folder objects now default to using the Message class for enumeration 
+  if no class is associated with the content_type of the Folder.
+  
 -- 0.3.2:
 * Quick hack to make Message#move_to work
 
