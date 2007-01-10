@@ -19,7 +19,7 @@ module RExchange
     
     def initialize(credentials, parent, name, content_type)
       @credentials, @parent, @name = credentials, parent, name
-      @content_type = CONTENT_TYPES[content_type]
+      @content_type = CONTENT_TYPES[content_type] || Message
     end
     
     # Used to access subfolders.
