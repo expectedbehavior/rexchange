@@ -8,10 +8,7 @@ module RExchange
     
     # Creates a Credentials instance to pass to subfolders
     # === Example
-    #   uri = 'https://mydomain.com/exchange/demo'
-    #   options = { :user => 'test', :password => 'random' }
-    # 
-    #   RExchange::Session.new(uri, 'bob', 'secret') do |mailbox|
+    #   RExchange::Session.new('https://mydomain.com/exchange/demo', 'mydomain\\bob', 'secret') do |mailbox|
     #     mailbox.test.each do |message|
     #       puts message.subject
     #     end

@@ -18,7 +18,7 @@ module RExchange
   # Use STDOUT or another stream if you'd like to capture the HTTP debug output
   DEBUG_STREAM = $log
   
-  # A shortcut to RExchange::Session#new's block syntax
+  # A shortcut to RExchange::Session#new
   def self.open(uri, username = nil, password = nil)
     session = RExchange::Session.new(uri, username, password)
     

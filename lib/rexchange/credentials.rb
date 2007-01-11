@@ -7,7 +7,7 @@ module RExchange
   class Credentials
     attr_reader :user, :password, :uri
 
-    # You must pass a uri, and an options hash containing :user and :password
+    # You must pass a uri, a username and a password
     def initialize(uri, username = nil, password = nil)
       @uri = URI.parse(uri)
       @use_ssl = (@uri.scheme.downcase == 'https')

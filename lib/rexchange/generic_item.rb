@@ -77,7 +77,7 @@ module RExchange
     
     # Defines what attributes are used in queries, and
     # what methods they map to in instances. You should
-    # pass a Hash of method_name and namespaced-attribute-name pairs.
+    # pass a Hash of method_name symbols and namespaced-attribute-name pairs.
     def self.attribute_mappings(mappings)
       
       mappings.merge! :uid => 'DAV:uid',

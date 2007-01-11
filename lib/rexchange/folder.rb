@@ -40,13 +40,10 @@ module RExchange
       end
     end
     
+    # Not Implemented!
     def search(conditions = {})
+      raise NotImplementedError.new('Bad Touch!')
       @content_type::find(@credentials, to_s, conditions)
-    end
-    
-    # Join the strings passed in with '/'s between them
-    def self.join(*args)
-      args.collect { |f| f.to_s.ensure_ends_with('/') }.to_s.squeeze('/')
     end
     
     # Return an Array of subfolders for this folder
@@ -83,7 +80,7 @@ module RExchange
     
     # Return the absolute path to this folder (but not the full URI)
     def to_s
-      Folder.join(@parent, @name)
+      "#@parent/#@name/".squeeze('/')
     end
   end
 end
