@@ -2,7 +2,6 @@
 * Updated the README so it jives with the current version
 * Removed Folder::join since it's only used by Folder#to_s, and just used a simpler
 	solution in Folder#to_s instead
-*
 
 -- 0.3.3:
 * Folder objects now default to using the Message class for enumeration 

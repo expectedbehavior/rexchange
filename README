@@ -16,7 +16,7 @@ RExchange is a pure ruby wrapper for the Microsoft Exchange Server WebDAV API
 == Example
 
 	# We pass our uri (pointing directly to a mailbox), a username, and a password to RExchange::open
-	# to create a RExchange::Session. Notice that we escape the @\@ in our username.
+	# to create a RExchange::Session. Notice that we escape the "\" in our username.
 	RExchange::open('https://example.com/exchange/admin/', 'mydomain\\admin', 'secret') do |mailbox|
   
 		# The block parameter ("mailbox" in this case) is actually the Session itself.
@@ -58,12 +58,12 @@ RExchange is a pure ruby wrapper for the Microsoft Exchange Server WebDAV API
 	
 	end
 
-	# We can access the Global Address Book by accessing the @/public@ folder:
+	# We can access the Global Address Book by accessing the "/public" folder:
 	RExchange::open('https://example.com/public', 'mydomain\\somebody', 'secret') do |mailbox|
 
 		puts mailbox.company_contacts.each do |contact|
 			<<-CONTACT
-			  Company: #{contact.company}
+				Company: #{contact.company}
 				Name:    #{contact.first_name} #{contact.last_name}
 				Email:   #{contact.email}
 				Phone:   #{contact.phone}
