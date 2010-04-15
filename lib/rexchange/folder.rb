@@ -98,5 +98,10 @@ module RExchange
     def to_s
       @href
     end
+    
+    def display_name
+      @displayname
+    end  
   end
+
 end
