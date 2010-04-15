@@ -32,6 +32,7 @@ module RExchange
               end
 
       DavMoveRequest.execute(@session, self.href, destination)
+      self.href = destination
     end
 
     # Delete this message.

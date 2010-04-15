@@ -106,6 +106,7 @@ module RExchange
     end
     
     def href=(value)
+      @href = nil
       @attributes['DAV:href'] = value
     end
 
