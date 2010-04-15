@@ -1,3 +1,5 @@
+require 'active_support'
+require 'active_support/all'
 require 'rexchange/session'
 require 'rexchange/r_exception'
 
