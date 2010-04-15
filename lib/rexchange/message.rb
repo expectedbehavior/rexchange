@@ -84,6 +84,16 @@ module RExchange
         false
       end
     end
+    
+    def mark_as_unread
+      response = DavProppatchRequest.execute(@session, self.href, RExchange::PR_HTTPMAIL_READ, RExchange::NS_HTTPMAIL, 0)
+      case response
+      when Net::HTTPSuccess then
+        true
+      else
+        false
+      end
+    end
 
   end
 end
