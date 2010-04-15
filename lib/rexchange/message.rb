@@ -10,7 +10,7 @@ module RExchange
             :to => 'urn:schemas:httpmail:to',
             :message_id => 'urn:schemas:mailheader:message-id',
             :subject => 'urn:schemas:httpmail:subject',
-            :recieved_on => 'urn:schemas:httpmail:date',
+            :received_on => 'urn:schemas:httpmail:date',
             :importance => 'urn:schemas:httpmail:importance',
             :has_attachments? => 'urn:schemas:httpmail:hasattachment',
             :body => 'urn:schemas:httpmail:textdescription',
