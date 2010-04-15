@@ -4,9 +4,16 @@ require 'rexchange/dav_proppatch_request'
 module RExchange
   class MessageHref
 
+    attr_reader :href
+    attr_accessor :session
+
     def initialize(session, href)
-      @href = href
-      @session = session
+      self.session = session
+      self.href = href
+    end
+    
+    def href=(value)
+      @href = URI.encode(URI.decode(value))
     end
 
     # Move this message to the specified folder.
@@ -21,7 +28,7 @@ module RExchange
               if folder.is_a?(RExchange::Folder)
                 folder.to_s.ensure_ends_with('/') + @href.split('/').last
               else
-                @session.uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + @href.split('/').last
+                @session.dav_uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + @href.split('/').last
               end
 
       DavMoveRequest.execute(@session, @href, destination)

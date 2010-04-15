@@ -84,20 +84,29 @@ module RExchange
       mappings.merge! :uid => 'DAV:uid',
               :modified_at => 'DAV:getlastmodified',
               :href => 'DAV:href'
-
+      
       const_set('ATTRIBUTE_MAPPINGS', mappings)
 
       mappings.each_pair do |k, v|
-
-        define_method(k) do
-          @attributes[v]
+        if !instance_methods.include?(k.to_s)
+          define_method(k) do
+            @attributes[v]
+          end
         end
-
-        define_method("#{k.to_s.sub(/\?$/, '')}=") do |value|
-          @attributes[v] = value
+        if !instance_methods.include?("#{k.to_s.sub(/\?$/, '')}=")
+          define_method("#{k.to_s.sub(/\?$/, '')}=") do |value|
+            @attributes[v] = value
+          end
         end
-
       end
+    end
+
+    def href
+      @href ||= URI.encode(URI.decode(@attributes['DAV:href']))
+    end
+    
+    def href=(value)
+      @attributes['DAV:href'] = value
     end
 
     # Retrieve an Array of items (such as Contact, Message, etc)

@@ -28,7 +28,7 @@ module RExchange
               if folder.is_a?(RExchange::Folder)
                 folder.to_s.ensure_ends_with('/') + self.href.split('/').last
               else
-                @session.uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + self.href.split('/').last
+                @session.dav_uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + self.href.split('/').last
               end
 
       DavMoveRequest.execute(@session, self.href, destination)
