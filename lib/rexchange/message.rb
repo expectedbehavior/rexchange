@@ -14,7 +14,8 @@ module RExchange
             :importance => 'urn:schemas:httpmail:importance',
             :has_attachments? => 'urn:schemas:httpmail:hasattachment',
             :body => 'urn:schemas:httpmail:textdescription',
-            :html => 'urn:schemas:httpmail:htmldescription'
+            :html => 'urn:schemas:httpmail:htmldescription',
+            :read_as_string => 'urn:schemas:httpmail:read'
 
 
     # Move this message to the specified folder.
@@ -73,6 +74,14 @@ module RExchange
       else
         response.error!
       end
+    end
+
+    def read?
+      read_as_string == '1'
+    end
+    
+    def unread?
+      !read?
     end
 
     def mark_as_read
