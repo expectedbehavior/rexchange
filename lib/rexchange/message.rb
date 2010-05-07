@@ -95,5 +95,10 @@ module RExchange
       end
     end
 
+    def modified_ago
+      server_time = Time.parse(DavGetRequest.execute(@session, href).to_hash['date'].first)
+      server_time - modified_at
+    end
+
   end
 end
